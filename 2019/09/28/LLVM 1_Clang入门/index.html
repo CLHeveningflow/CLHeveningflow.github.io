@@ -15,14 +15,14 @@
 <meta property="og:site_name" content="Eveningflow&#39;s Blog">
 <meta property="og:description" content="#LLVM简介 LLVM项目是可重用(reusable)、模块化(modular)的编译器以及工具链技术(toolchain technologies)的集合。有人将其理解为“底层虚拟机(Low Level Virtual Machine)”的简称，但是官方原话为：“The name “LLVM” itself is not an acronym; it is the full name of t">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="f:%5CBlog%5Cpictures%5CLLVM%5C1.1.png">
-<meta property="og:image" content="f:%5CBlog%5Cpictures%5CLLVM%5C1.2.png">
-<meta property="og:image" content="f:%5CBlog%5Cpictures%5CLLVM%5C1.3.png">
-<meta property="og:updated_time" content="2019-09-29T02:42:00.842Z">
+<meta property="og:image" content="http://yoursite.com/2019/09/28/LLVM%201_Clang入门/1.1.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/28/LLVM%201_Clang入门/1.2.png">
+<meta property="og:image" content="http://yoursite.com/2019/09/28/LLVM%201_Clang入门/1.3.png">
+<meta property="og:updated_time" content="2019-09-29T14:08:07.465Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LLVM 1:Clang入门">
 <meta name="twitter:description" content="#LLVM简介 LLVM项目是可重用(reusable)、模块化(modular)的编译器以及工具链技术(toolchain technologies)的集合。有人将其理解为“底层虚拟机(Low Level Virtual Machine)”的简称，但是官方原话为：“The name “LLVM” itself is not an acronym; it is the full name of t">
-<meta name="twitter:image" content="f:%5CBlog%5Cpictures%5CLLVM%5C1.1.png">
+<meta name="twitter:image" content="http://yoursite.com/2019/09/28/LLVM%201_Clang入门/1.1.png">
   
     <link rel="alternate" href="/atom.xml" title="Eveningflow&#39;s Blog" type="application/atom+xml">
   
@@ -109,7 +109,7 @@ sudo apt-get install gcc
 sudo apt-get install g++</code></pre><p>####1.1.3 下载项目源码</p>
 <p>可以选择直接git整个工程，也可以去<a href="http://releases.llvm.org/download.html" target="_blank" rel="noopener">官网</a>下载源码然后自行安装。这里就按官网的git方法。</p>
 <pre><code>git clone https://github.com/llvm/llvm-project.git</code></pre><p>下载好后会在当前目录下看到llvm-project文件夹。</p>
-<p><img src="F:%5CBlog%5Cpictures%5CLLVM%5C1.1.png" alt="LLVM"></p>
+<p><img src="/2019/09/28/LLVM 1_Clang入门/1.1.png" alt="LLVM"></p>
 <p>####1.1.4 构建项目</p>
 <pre><code>cd llvm-project</code></pre><p>创建构建目录</p>
 <pre><code>mkdir build
@@ -153,21 +153,23 @@ Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7.4.0
 Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/8
 Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7.4.0
 Candidate multilib: .;@m64
-Selected multilib: .;@m64</code></pre><p><img src="F:%5CBlog%5Cpictures%5CLLVM%5C1.2.png" alt="LLVM"></p>
-<p>编写一段C语言代码试试看:</p>
+Selected multilib: .;@m64</code></pre><p><img src="/2019/09/28/LLVM 1_Clang入门/1.2.png" alt="LLVM"></p>
+<p>编写一段C语言代码试试看(C++也可以):</p>
 <pre><code>#include &lt;stdio.h&gt;
 int main() {
     printf(&quot;hello world\n&quot;);
     return 0;
 }</code></pre><p>用clang编译：</p>
 <pre><code>clang helloworld.c -o hello.out
-./hello.out</code></pre><p><img src="F:%5CBlog%5Cpictures%5CLLVM%5C1.3.png" alt="LLVM"></p>
+./hello.out</code></pre><p>如果是C++代码则：</p>
+<pre><code>clang++ helloworld.cpp -o hello.out
+./hello.out</code></pre><p><img src="/2019/09/28/LLVM 1_Clang入门/1.3.png" alt="LLVM"></p>
 <p>大功告成！</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/28/LLVM 1_Clang入门/" data-id="ck14dp79i0000mk2u78tuvl15" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/28/LLVM 1_Clang入门/" data-id="ck152lwop0000us2upwz53zmi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LLVM/">LLVM</a></li></ul>
