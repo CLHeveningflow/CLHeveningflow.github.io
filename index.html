@@ -382,39 +382,11 @@ $ cd build</code></pre><p>利用cmake构建</p>
 <p>个人使用Unix Makefiles</p>
 <p>常用的options有：</p>
 <ul>
-<li><p>DCMAKE_INSTALL_PREFIX=directory ——为目录指定要在其中安装LLVM工具和库的完整路径名（默认/usr/local）。</p>
-</li>
-<li><p>DCMAKE_BUILD_TYPE=type ——type选项有Debug，Release，RelWithDebInfo和MinSizeRel。默认值为Debug。</p>
-</li>
-<li><p>DLLVM_ENABLE_ASSERTIONS=On ——启用断言检查进行编译。</p>
-</li>
-<li><p>DLLVM_ENABLE_PROJECTS=”…” ——要另外构建的LLVM子项目的列表，以’;’分隔。例如要构建LLVM，Clang，libcxx和libcxxabi，使用:</p>
-<p>DLLVM_INSTALL_PROJECTS=”clang;libcxx;libcxxabi”</p>
-</li>
-<li><p>DLLVM_TARGETS_TO_BUILD=”…” ——构建针对的平台的部分项目，以’;’分隔。默认面向所有平台编译(all)，指定只编译自己需要的CPU架构可以节省时间。</p>
-</li>
+<li>DCMAKE_INSTALL_PREFIX=directory ——为目录指定要在其中安装LLVM工具和库的完整路径名（默认/usr/local）。</li>
+<li>DCMAKE_BUILD_TYPE=type ——type选项有Debug，Release，RelWithDebInfo和MinSizeRel。默认值为Debug。</li>
+<li>DLLVM_ENABLE_ASSERTIONS=On ——启用断言检查进行编译。</li>
+<li>DLLVM_ENABLE_PROJECTS=”…” ——要另外构建的LLVM子项目的列表，以’;’分隔。例如要构建LLVM，Clang，libcxx和libcxxabi，使用:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">  </span><br><span class="line">- DLLVM\_TARGETS_TO\_BUILD=&quot;...&quot; ——构建针对的平台的部分项目，以&apos;;&apos;分隔。默认面向所有平台编译(all)，指定只编译自己需要的CPU架构可以节省时间。</span><br><span class="line"></span><br><span class="line">官方文档在[这](http://llvm.org/docs/CMake.html#options-and-variables)。</span><br><span class="line"></span><br><span class="line">由于全部构建真的很耗费资源和时间，我使用的构建clang命令（可供参考）：</span><br><span class="line"></span><br><span class="line">	$ cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=&quot;X86&quot; -DLLVM_ENABLE_PROJECTS=clang -DLLVM_USE_LINKER=gold -G &quot;Unix Makefiles&quot; ../llvm</span><br><span class="line"></span><br><span class="line">当然你如果愿意（&lt;del&gt;而且设备跑得动&lt;/del&gt;）也可以：</span><br><span class="line"></span><br><span class="line">	$ cmake -G &quot;Unix Makefiles&quot; ../llvm</span><br><span class="line"></span><br><span class="line">### 1.1.5 编译</span><br><span class="line"></span><br><span class="line">	$ make [-j &lt;core&gt;]</span><br><span class="line">	$ sudo make install</span><br><span class="line"></span><br><span class="line">直接make也可以，但LLVM也支持并行编译，其中core取决于核心数。如：</span><br><span class="line"></span><br><span class="line">	$ make -j 4</span><br><span class="line"></span><br><span class="line">这两步一般会很久……</span><br><span class="line"></span><br><span class="line">### 1.1.6 测试</span><br><span class="line"></span><br><span class="line">在编译结束后尝试在命令行中使用clang：</span><br><span class="line"></span><br><span class="line">	$ clang -v</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">本人得到结果如下：</span><br><span class="line"></span><br><span class="line">	clang version 10.0.0 </span><br><span class="line">	Target: x86_64-unknown-linux-gnu</span><br><span class="line">	Thread model: posix</span><br><span class="line">	InstalledDir: /usr/local/bin</span><br><span class="line">	Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7</span><br><span class="line">	Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7.4.0</span><br><span class="line">	Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/8</span><br><span class="line">	Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7.4.0</span><br><span class="line">	Candidate multilib: .;@m64</span><br><span class="line">	Selected multilib: .;@m64</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">![LLVM](LLVM1/2.jpg)</span><br><span class="line"></span><br><span class="line">编写一段C语言代码试试看(C++也可以):</span><br><span class="line"></span><br><span class="line">```c</span><br><span class="line">//helloworld.c</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main() &#123;</span><br><span class="line">	printf(&quot;hello world\n&quot;);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
-<p>官方文档在<a href="http://llvm.org/docs/CMake.html#options-and-variables" target="_blank" rel="noopener">这</a>。</p>
-<p>由于全部构建真的很耗费资源和时间，我使用的构建clang命令（可供参考）：</p>
-<pre><code>$ cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=&quot;X86&quot; -DLLVM_ENABLE_PROJECTS=clang -DLLVM_USE_LINKER=gold -G &quot;Unix Makefiles&quot; ../llvm</code></pre><p>当然你如果愿意（<del>而且设备跑得动</del>）也可以：<br>    $ cmake -G “Unix Makefiles” ../llvm</p>
-<h3 id="1-1-5-编译"><a href="#1-1-5-编译" class="headerlink" title="1.1.5 编译"></a>1.1.5 编译</h3><pre><code>$ make [-j &lt;core&gt;]
-$ sudo make install</code></pre><p>直接make也可以，但LLVM也支持并行编译，其中core取决于核心数。如：</p>
-<pre><code>$ make -j 4</code></pre><p>这两步一般会很久……</p>
-<h3 id="1-1-6-测试"><a href="#1-1-6-测试" class="headerlink" title="1.1.6 测试"></a>1.1.6 测试</h3><p>在编译结束后尝试在命令行中使用clang：</p>
-<pre><code>$ clang -v</code></pre><p>本人得到结果如下：</p>
-<pre><code>clang version 10.0.0 
-Target: x86_64-unknown-linux-gnu
-Thread model: posix
-InstalledDir: /usr/local/bin
-Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7
-Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7.4.0
-Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/8
-Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/7.4.0
-Candidate multilib: .;@m64
-Selected multilib: .;@m64</code></pre><p><img src="/2019/09/28/LLVM1/2.jpg" alt="LLVM"></p>
-<p>编写一段C语言代码试试看(C++也可以):</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//helloworld.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"hello world\n"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>用clang编译：</p>
 <pre><code>$ clang helloworld.c -o hello.out
 $ ./hello.out</code></pre><p>如果是C++代码则：</p>
@@ -436,8 +408,8 @@ $ ./hello.out</code></pre><p><img src="/2019/09/28/LLVM1/3.jpg" alt="LLVM"></p>
 <h3 id="1-2-2-clone项目源代码"><a href="#1-2-2-clone项目源代码" class="headerlink" title="1.2.2 clone项目源代码"></a>1.2.2 clone项目源代码</h3><p>你也可以选择去github上直接download。</p>
 <pre><code>$ git clone https://github.com/llvm/llvm-progect.git</code></pre><h3 id="1-2-3-Cmake编译"><a href="#1-2-3-Cmake编译" class="headerlink" title="1.2.3 Cmake编译"></a>1.2.3 Cmake编译</h3><p>在项目总目录下新建build目录（避免污染项目源代码）</p>
 <pre><code>$ mkdir build
-$ cd build</code></pre><p>运行Cmake。<br>    $ cmake -DLLVM_ENABLE_PROJECTS=clang -G “Visual Studio 15 2017” -A x64 -Thost=x64 ..\llvm</p>
-<ul>
+$ cd build</code></pre><p>运行Cmake。</p>
+<pre><code>$ cmake -DLLVM_ENABLE_PROJECTS=clang -G &quot;Visual Studio 15 2017&quot; -A x64 -Thost=x64 ..\llvm</code></pre><ul>
 <li>如果使用Visual Studio 2019则改为-G “Visual Studio 16 2019”。</li>
 <li>如果需要适配x86则改为 -A Win32。</li>
 </ul>
@@ -488,7 +460,7 @@ $ cd build</code></pre><p>运行Cmake。<br>    $ cmake -DLLVM_ENABLE_PROJECTS=c
 <h2 id="Clang-Clang-使用"><a href="#Clang-Clang-使用" class="headerlink" title="Clang(Clang++)使用"></a>Clang(Clang++)使用</h2><p>我们先随便写一段以下代码：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//test.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> a[<span class="number">10</span>] = &#123;<span class="number">4</span>,<span class="number">2</span>,<span class="number">7</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">1</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">3</span>,<span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; a[i] &lt;&lt; (i == <span class="number">9</span>?<span class="string">"\n"</span>:<span class="string">" "</span>);</span><br><span class="line">	sort(a,a+<span class="number">10</span>);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; a[i] &lt;&lt; (i == <span class="number">9</span>?<span class="string">"\n"</span>:<span class="string">" "</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2019/09/28/LLVM1/Users/asus/Desktop/LLVM1/6.jpg" alt="LLVM"></p>
+<p><img src="/2019/09/28/LLVM1/6.jpg" alt="LLVM"></p>
 <h3 id="3-1-生成预处理文件："><a href="#3-1-生成预处理文件：" class="headerlink" title="3.1.生成预处理文件："></a>3.1.生成预处理文件：</h3><pre><code>$ clang++ -E test.cpp -o test.i</code></pre><p>生成文件test.i（部分）如下：</p>
 <img src="/2019/09/28/LLVM1/7.jpg" alt="LLVM" style="zoom:80%;">
 
